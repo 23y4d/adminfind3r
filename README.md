@@ -6,6 +6,13 @@ adminfind3r is PHP script ,find any  Administrator Login Page of various website
 git clone https://github.com/23y4d/adminfind3r.git
 ```
 
+
+##Screenshots
+
+![adminfind3r](http://down.secureland.ps/Screenshot.png)
+
+
+
 ##Recommended PHP Version:
 
 The recommended PHP version =>5.5.x
@@ -44,11 +51,6 @@ php find exmple.com -php output.txt
  ```
 php find exmple.com -php 
 ```
-
-##Screenshots
-
-![adminfind3r](http://down.secureland.ps/Screenshot.png)
-
 
 ##License
 
