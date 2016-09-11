@@ -15,7 +15,7 @@ git clone https://github.com/23y4d/adminfind3r.git
 
 ##Recommended PHP Version:
 
-The recommended PHP version =>5.5.x
+The recommended PHP5 >= 5.5.x
 
 ##Dependencies:
 
