@@ -1,0 +1,81 @@
+<?php error_reporting(0);
+
+# coding: utf-8
+# adminfind3r
+# By zeyad besiso - twitter.com/ZEY4D_
+
+require_once"admin.php";
+
+echo banner();		
+
+$url    = V($argv[1]);
+$type   = $argv[2];
+$output = $argv[3];
+
+if (!empty($output)){
+	$fh = fopen($output, 'w');
+	if($fh) $add = "Every [+] output will be saved on {$output}\r\n";
+	else    $add = "[!] Cannot write scan result to   {$output}\r\n";
+}
+    $ports = $url;
+	$check = get_headers($ports, 1);
+	$c = get_headers($ports,0);
+	echo "\r\nChecking " . $ports . "\r\n";
+	if ($check =="") {
+	echo crot("[status]: make sure your target url are correct!\r\n ","red"); exit;
+	}elseif($type =="" ){echo crot("[status]:Please Enter  type of site  ! \r\n ",'red');exit;
+	}else{
+	   if($type=="-php")$type = $php;
+		elseif($type=="-asp")$type = $asp;
+		elseif($type=="-cfm")$type = $cfm;
+		elseif($type=="-js")$type = $js;
+		elseif($type=="-cgi")$type = $cgi;
+	  else $type = $brf;
+$info = "
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\r\n
+	target : {$url}\r 
+	Status : {$check[0]}\r  
+	Start Scan : ".date("Y-m-d H:i:s")."\r 
+	{$add}\r
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\r\n ";
+	echo $info;
+        sleep(3);
+        $i=0;if($fh) write($info);
+        foreach($type as $type => $zz){
+	$headers = get_headers($url.$zz, 1);
+		$n=$i++;
+		  set_time_limit(360000);
+		        $path =$ports.$zz;$cr = curl_init();
+			curl_setopt($cr,CURLOPT_RETURNTRANSFER,1);
+			curl_setopt($cr,CURLOPT_HEADER,1);
+			curl_setopt($cr,CURLOPT_URL,$path);
+			$url = curl_exec($cr);
+		  curl_close($cr);
+		if(preg_match("/200 OK/",$url)) {
+		$f=0;
+		echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\r\n";
+		$c=1; echo crot("[+][status][Found!] <- [{$path}] \r\n",'l_green');$f=$c;
+		$r = "[$n][status][Found!] <- [{$path}] \r\n";
+		echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\r\n";
+		 $f++;
+		if($fh)write($r);
+		}elseif(preg_match("/302/",$url,$headers[0])){
+		echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\r\n";
+		echo crot("[+][status][Found!({$path})]redirect to ->[{$headers['Location']}]",'l_green')."\r\n";
+		$fin = "[$n][status][Found!({$path})]redirect to ->[{$headers['Location']}]\r\n";
+		if($fh)write($fin);
+		echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\r\n";
+		}else{
+		echo "[-][status][not Found]-> [{$path}]\r\n";
+		}
+    		}
+            echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- Finish --=-=-=-=-=-=-=-=-=-=-=-=-=\r\n";
+            echo "[$n] total pages scanned \r\n";
+            echo "[$f] admin pages found  \r\n";		
+        }
+	if(!empty($output)) {
+	   write("-=-=-=-=-=-=-=-=-=-=-=-=-=- Finish -=-=-=-=-=-=-=-=-=-=-=-=-=-=\r\n");
+	fclose($fh);
+	}
+
+?>
