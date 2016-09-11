@@ -45,8 +45,14 @@ php find exmple.com -php output.txt
 php find exmple.com -php 
 ```
 
+##Screenshots
+
+![adminfind3r](http://down.secureland.ps/Screenshot.png)
+
 
 ##License
 
 adminfind3r is licensed under the GNU GPL license. take a look at the [LICENSE](https://github.com/23y4d/adminfind3r/blob/master/LICENSE) for more information.
 
+##Version
+**Current version is 1.0**
